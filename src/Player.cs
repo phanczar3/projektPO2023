@@ -3,10 +3,11 @@ using System.Collections.Generic;
 public abstract class Move {}
 public class PlayingMove : Move {
     public Card cardPlayed;
+    public PlayingMove(Card c) => cardPlayed = c;
 }
 public class WaitingMove : Move {}
 public abstract class Player {
-    private List<Card> hand;
+    protected List<Card> hand;
 
     public void playCard(Card c) => hand.Remove(c);
     public void drawCard(Card c) => hand.Add(c);

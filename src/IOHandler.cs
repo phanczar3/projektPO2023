@@ -28,13 +28,38 @@ public class IOHandler {
         }
         Console.WriteLine();
     }
+    public void playersTurn(Player p) {
+        Console.WriteLine(p.name + "'s turn:");
+    }
+    public void printMove(Player p, Move m) {
+        Console.Write(p.name);
+        if(m is WaitingMove) Console.WriteLine(" is waiting");
+        else {
+            PlayingMove m2 = (PlayingMove)m;
+            Card c = m2.cardPlayed;
+            Console.WriteLine(" has played " + c.displayName());
+        }
+    }
+    public void printGameState(GameState gs) {
+        foreach(Player p in gs.players) {
+            Console.WriteLine(p.name + "'s hand size is: " + p.handSize);
+        }
+        Console.WriteLine("Cards left in deck: " + gs.deck.Count);
+        Console.WriteLine("Top card is " + gs.topCard.displayName());
+    }
     public Move askForMove(string s, List<Card> hand) {
-        Console.WriteLine(s + "'s turn:");
+        Console.WriteLine("Your hand:");
+        foreach(Card c in hand) {
+            Console.WriteLine(c.displayName());
+        }
         int input = Convert.ToInt32(Console.ReadLine());
         return parseInput(input, hand);
     }
+    public void announceWinner(Player p) {
+        Console.WriteLine(p.name + " has won!");
+    }
     private Move parseInput(int i, List<Card> hand) {
         if(i == 0) return new WaitingMove();
-        return new PlayingMove(hand[i]);
+        return new PlayingMove(hand[i-1]);
     }
 }

@@ -7,7 +7,10 @@ public class PlayingMove : Move {
 }
 public class WaitingMove : Move {}
 public abstract class Player {
-    protected List<Card> hand;
+    protected List<Card> hand = new List<Card>();
+    public int handSize {
+        get { return hand.Count; }
+    }
     public readonly string name;
     protected Player(string s) {
         name = s;
@@ -21,5 +24,5 @@ public abstract class Player {
             Console.WriteLine(c.displayName());
         }
     }
-    public abstract Move makeMove(Card c);
+    public abstract Move makeMove();
 }

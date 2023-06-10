@@ -21,6 +21,13 @@ public class IOHandler {
         }
         return bots;
     }
+    public void printTurnOrder(List<Player> players) {
+        Console.WriteLine("Turn order of the game:");
+        foreach(Player p in players) {
+            Console.Write(p.name + ", ");
+        }
+        Console.WriteLine();
+    }
     public Move askForMove(string s, List<Card> hand) {
         Console.WriteLine(s + "'s turn:");
         int input = Convert.ToInt32(Console.ReadLine());

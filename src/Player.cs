@@ -8,7 +8,11 @@ public class PlayingMove : Move {
 public class WaitingMove : Move {}
 public abstract class Player {
     protected List<Card> hand;
-    protected string name;
+    public readonly string name;
+    protected Player(string s) {
+        name = s;
+    }
+
     public void playCard(Card c) => hand.Remove(c);
     public void drawCard(Card c) => hand.Add(c);
 

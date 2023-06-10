@@ -14,6 +14,7 @@ public class Game {
         foreach(string s in botsNames) {
             players.Add(new Bot(s));
         }
-
+        ioh.printTurnOrder(players);
+        
     }
 }

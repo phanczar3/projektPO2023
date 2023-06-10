@@ -1,8 +1,7 @@
 using System;
 public class Bot : Player {
-    Random rnd;
-    public Bot(string s) {
-        name = s;
+    private Random rnd;
+    public Bot(string s) : base(s) {
         rnd = new Random();
     }
     public override Move makeMove(Card c) {

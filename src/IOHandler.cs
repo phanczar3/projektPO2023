@@ -55,6 +55,9 @@ public class IOHandler {
         int input = Convert.ToInt32(Console.ReadLine());
         return parseInput(input, hand);
     }
+    public void clearConsole() {
+        Console.Clear();
+    }
     public void announceWinner(Player p) {
         Console.WriteLine(p.name + " has won!");
     }

@@ -37,6 +37,8 @@ public class Game {
             gr.changeState(ref gs, m);
             ioh.printMove(cp, m);
             gs.nextTurn();
+            if(cp is User)
+                ioh.clearConsole();
         }
         ioh.announceWinner(gr.winnerOfTheGame(gs));
     }

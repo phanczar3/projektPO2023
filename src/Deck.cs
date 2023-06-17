@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 public class Deck{
+    private static Random rnd = new Random();
     private List<Card> cards = new List<Card>();
     private List<Card> usedCards = new List<Card>();
     public int Count {
@@ -25,5 +26,11 @@ public class Deck{
         Card c = cards[0];
         cards.RemoveAt(0);
         return c;
+    }
+    public void shuffle() {
+        for(int i = 0; i < cards.Count; i++) {
+            int j = rnd.Next(i, cards.Count);
+            (cards[i], cards[j]) = (cards[j], cards[i]);
+        }
     }
 }

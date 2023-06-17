@@ -23,10 +23,11 @@ public class IOHandler {
     }
     public void printTurnOrder(List<Player> players) {
         Console.WriteLine("Turn order of the game:");
+        string s = "";
         foreach(Player p in players) {
-            Console.Write(p.name + ", ");
+            s += p.name + ", ";
         }
-        Console.WriteLine();
+        Console.WriteLine(s.Substring(0, s.Length-2));
     }
     public void playersTurn(Player p) {
         Console.WriteLine(p.name + "'s turn:");

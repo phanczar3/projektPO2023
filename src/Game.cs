@@ -17,6 +17,7 @@ public class Game {
         }
         ioh.printTurnOrder(players);
         Deck deck = new Deck();
+        deck.shuffle();
         foreach(Player p in players) {
             for(int i = 0; i < 5; i++) {
                 deck.giveCard(p);

@@ -37,6 +37,16 @@ public class GameRules {
             current.playCard(c);
         }
     }
+    public List<Move> allOptions(GameState gs) {
+        List<Move> options = new List<Move>();
+        options.Add(new WaitingMove());
+        foreach(Card c in gs.currentPlayer().hand) {
+            Move m = new PlayingMove(c);
+            if(isLegal(gs, m))
+                options.Add(m);
+        }
+        return options;
+    }
     public Player winnerOfTheGame(GameState gs) {
         foreach(Player p in gs.players) {
             if(p.handSize == 0) return p;

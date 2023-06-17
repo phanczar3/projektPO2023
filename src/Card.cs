@@ -10,7 +10,7 @@ public class Card {
         suit = s;
         face = f;
     }
-    public string displayName() {
+    public override string ToString() {
         string f = ((int)face).ToString();
         switch(f) {
             case "11":

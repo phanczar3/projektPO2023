@@ -16,7 +16,7 @@ public class Deck{
     }
     public void giveCard(Player p) {
         Card c = cards[0];
-        cards.Remove(c);
+        cards.RemoveAt(0);
         p.drawCard(c);
     }
     public void usedCard(Card c) {
@@ -25,12 +25,18 @@ public class Deck{
     public Card top() {
         Card c = cards[0];
         cards.RemoveAt(0);
+        usedCard(c);
         return c;
     }
     public void shuffle() {
         for(int i = 0; i < cards.Count; i++) {
             int j = rnd.Next(i, cards.Count);
             (cards[i], cards[j]) = (cards[j], cards[i]);
+        }
+    }
+    public void printDeck() {
+        foreach(Card c in cards) {
+            Console.WriteLine(c);
         }
     }
 }

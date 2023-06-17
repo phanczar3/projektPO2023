@@ -23,21 +23,16 @@ public class Game {
                 deck.giveCard(p);
             }
         }
+        Console.WriteLine("");
         Card topCard = deck.top();
         GameState gs = new GameState(players, deck, topCard);
         GameRules gr = new GameRules();
         while(gr.winnerOfTheGame(gs) == null) {
             Player cp = gs.currentPlayer();
-            ioh.printGameState(gs);
-            ioh.playersTurn(cp);
-            Move m;
-            while(true) {
-                m = cp.makeMove();
-                if(gr.isLegal(gs, m)) break;
-            }
+            Move m = cp.makeMove(gs, gr);
             gr.changeState(ref gs, m);
             ioh.printMove(cp, m);
-            gs.nextTurn();
+            gs.nextTurn(m);
             if(cp is User)
                 ioh.clearConsole();
         }

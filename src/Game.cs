@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 public class Game {
-    //private static Random rnd = new Random();
     private IOHandler ioh;
     private Card topCard;
     private GameState gs;
@@ -35,7 +34,6 @@ public class Game {
             Player cp = gs.currentPlayer();
             Move m = cp.makeMove(gs, gr);
             gr.changeState(ref gs, m);
-            ioh.printMove(cp, m);
             gs.nextTurn(m);
             if(cp is User)
                 ioh.clearConsole();

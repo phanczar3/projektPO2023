@@ -5,18 +5,18 @@ public class GameState {
         public int roundsToSkip;
         public PlayerState() => roundsToSkip = 0;
     }
-    public Dictionary<Player, PlayerState> playersStates = new Dictionary<Player, PlayerState>();
-    public List<Player> players;
-    public Deck deck;
-    public Card topCard;
-    public int cardsToDraw;
-    public int roundsToSkip;
+    private Dictionary<Player, PlayerState> playersStates = new Dictionary<Player, PlayerState>();
+    public List<Player> players {get;}
+    public Deck deck {get;}
+    public Card topCard {get; set;}
+    public int cardsToDraw {get; set;}
+    public int roundsToSkip {get; set;}
     public GameState(List<Player> players, Deck deck, Card topCard) {
         this.players = players;
         this.deck = deck;
         this.topCard = topCard;
         foreach(Player p in players) {
-            playersStates[p] = new PlayerState();
+            playersStates.Add(p, new PlayerState());
         }
         cardsToDraw = 0;
         roundsToSkip = 0;
@@ -28,6 +28,15 @@ public class GameState {
         Player p = players[0];
         players.RemoveAt(0);
         players.Add(p);
+    }
+    public bool isPlayerStopped() {
+        return playersStates[currentPlayer()].roundsToSkip > 0;
+    }
+    public void playerSkips() {
+        playersStates[currentPlayer()].roundsToSkip--;
+    }
+    public void playerSetStops(int x) {
+        playersStates[currentPlayer()].roundsToSkip = x;
     }
 }
 

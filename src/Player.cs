@@ -11,8 +11,10 @@ public class PlayingMove : Move {
     }
 }
 public class WaitingMove : Move {
+    string msg;
+    public WaitingMove(string s) => msg = s;
     public override string display() {
-        return "Wait";
+        return msg;
     }
 }
 public abstract class Player {

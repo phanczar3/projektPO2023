@@ -3,6 +3,9 @@ using System.Collections.Generic;
 public class Game {
     //private static Random rnd = new Random();
     private IOHandler ioh;
+    private Card topCard;
+    private GameState gs;
+    private GameRules gr;
     public Game() {
         ioh = new IOHandler();
         List<string> usersNames = ioh.getUsers();
@@ -20,13 +23,14 @@ public class Game {
         deck.shuffle();
         foreach(Player p in players) {
             for(int i = 0; i < 5; i++) {
-                deck.giveCard(p);
+                p.drawCard(deck.top());
             }
         }
-        Console.WriteLine("");
-        Card topCard = deck.top();
-        GameState gs = new GameState(players, deck, topCard);
-        GameRules gr = new GameRules();
+        topCard = deck.top();
+        gs = new GameState(players, deck, topCard);
+        gr = new GameRules();
+    }
+    public void gameLoop() {
         while(gr.winnerOfTheGame(gs) == null) {
             Player cp = gs.currentPlayer();
             Move m = cp.makeMove(gs, gr);
@@ -38,5 +42,4 @@ public class Game {
         }
         ioh.announceWinner(gr.winnerOfTheGame(gs));
     }
-    public void doNothing() {}
 }

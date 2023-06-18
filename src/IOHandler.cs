@@ -42,31 +42,34 @@ public class IOHandler {
             WriteLine(" has played " + c);
         }
     }
-    public void printGameState(GameState gs) {
+    private List<String> showGameState(GameState gs) {
+        List<String> res = new List<String>();
+        playersTurn(gs.currentPlayer());
         foreach(Player p in gs.players) {
-            WriteLine(p.name + "'s hand size is: " + p.handSize);
+           res.Add(p.name + "'s hand size is: " + p.handSize);
         }
-        WriteLine("Cards left in deck: " + gs.deck.Count);
-        WriteLine("Top card is " + gs.topCard);
+        res.Add("Cards left in deck: " + gs.deck.Count);
+        res.Add("Top card is " + gs.topCard);
+        res.Add("Your hand:");
+        string hand = "";
+        foreach(Card c in gs.currentPlayer().hand) {
+            hand += (c + " ");
+        }
+        res.Add(hand);
+        return res;
     }
     public Move askForMove(string s, GameState gs, GameRules gr) {
         playersTurn(gs.currentPlayer());
-        Write("Press when ready to start: ");
-        ReadLine();
+        WriteLine("Press any key to start");
+        ReadKey(true);
         clearConsole();
-        playersTurn(gs.currentPlayer());
-        printGameState(gs);
-        WriteLine("Your hand:");
-        foreach(Card c in gs.currentPlayer().hand) {
-            Write(c + " ");
-        }
-        WriteLine();
-        List<Move> options = new List<Move>();
-        foreach(Move m in gr.allOptions(gs)) {
-            options.Add(m);
-            WriteLine(m.display());
-        }
-        int input = Convert.ToInt32(ReadLine());
+        
+        List<Move> options = gr.allOptions(gs);
+        List<String> optionsString = new List<String>();
+        foreach(Move m in options)
+            optionsString.Add(m.display());
+        KeyboardInterface ki = new KeyboardInterface(showGameState(gs).ToArray(), optionsString.ToArray());
+        int input = ki.run();    
         return options[input];
     }
     public void clearConsole() {

@@ -4,7 +4,7 @@ namespace MacauCardGame {
         static void Main(string[] args) {
             Game g = new Game();
             
-            g.doNothing();
+            g.gameLoop();
         }
     }
 }

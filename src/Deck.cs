@@ -14,10 +14,8 @@ public class Deck{
             }
         }
     }
-    public void giveCard(Player p) {
-        Card c = cards[0];
-        cards.RemoveAt(0);
-        p.drawCard(c);
+    public Deck(int seed) : this() {
+        rnd = new Random(seed);
     }
     public void usedCard(Card c) {
         usedCards.Add(c);
@@ -25,13 +23,14 @@ public class Deck{
     public Card top() {
         Card c = cards[0];
         cards.RemoveAt(0);
-        usedCard(c);
         return c;
     }
     public void shuffle() {
         for(int i = 0; i < cards.Count; i++) {
             int j = rnd.Next(i, cards.Count);
-            (cards[i], cards[j]) = (cards[j], cards[i]);
+            Card tmp = cards[i];
+            cards[i] = cards[j];
+            cards[j] = tmp;
         }
     }
     public void printDeck() {

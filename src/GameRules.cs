@@ -23,7 +23,7 @@ public class GameRules {
         Player current = gs.players[0];
         if(m is WaitingMove) {
             for(int i = 0; i < Math.Max(1, gs.cardsToDraw); i++) {
-                gs.deck.giveCard(current);
+                current.drawCard(gs.deck.top());
             }
             gs.cardsToDraw = 0;
         } else {

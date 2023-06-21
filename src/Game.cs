@@ -17,6 +17,7 @@ public class Game {
         foreach(string s in botsNames) {
             players.Add(new Bot(s));
         }
+        ioh.clearConsole();
         ioh.printTurnOrder(players);
         Deck deck = new Deck();
         deck.shuffle();
@@ -31,10 +32,17 @@ public class Game {
     }
     public void gameLoop() {
         while(gr.winnerOfTheGame(gs) == null) {
-            Player cp = gs.currentPlayer();
-            Move m = cp.makeMove(gs, gr);
-            gr.changeState(ref gs, m);
-            gs.nextTurn(m);
+            Player cp = gs.currentPlayer;
+            Move m;
+            ioh.askIfReady(gs);
+            List<Move> moves = new List<Move>();
+            do {
+                m = cp.makeMove(gs, gr);
+                Console.WriteLine(m);
+                gr.changeState(ref gs, m);
+                moves.Add(m);
+            } while(m is PlayingMove);
+            gs.nextTurn(moves);
             if(cp is User)
                 ioh.clearConsole();
         }

@@ -11,10 +11,21 @@ public class PlayingMove : Move {
     }
 }
 public class WaitingMove : Move {
-    string msg;
-    public WaitingMove(string s) => msg = s;
+    public WaitingMove() {}
     public override string display() {
-        return msg;
+        return "Wait";
+    }
+}
+public class SkippingMove : Move {
+    public SkippingMove() {}
+    public override string display() {
+        return "Skip";
+    }
+}
+public class FinishingMove : Move {
+    public FinishingMove() {}
+    public override string display() {
+        return "Finish";
     }
 }
 public abstract class Player {

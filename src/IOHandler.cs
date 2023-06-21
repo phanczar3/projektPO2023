@@ -30,38 +30,49 @@ public class IOHandler {
         }
         WriteLine(s.Substring(0, s.Length-2));
     }
-    public void playersTurn(Player p) {
-        WriteLine(p.name + "'s turn:");
-    }
-    public void printMove(Player p, Move m) {
-        Write(p.name);
-        if(m is WaitingMove) Console.WriteLine(" is waiting");
-        else {
-            PlayingMove m2 = (PlayingMove)m;
-            Card c = m2.cardPlayed;
-            WriteLine(" has played " + c);
-        }
+    public string playersTurn(Player p) {
+        return p.name + "'s turn:";
     }
     private List<String> showGameState(GameState gs) {
         List<String> res = new List<String>();
-        playersTurn(gs.currentPlayer());
-        foreach(Player p in gs.players) {
-           res.Add(p.name + "'s hand size is: " + p.handSize);
+        res.Add(playersTurn(gs.currentPlayer));
+        for(int i = 0; i < gs.previousMoves.Count; i++) {
+            res.Add(gs.previousMoves[i].Item1.name + " " + movesToString(gs.previousMoves[i].Item2, gs));
         }
+        foreach(Player p in gs.players)
+           if(gs.currentPlayer != p)
+               res.Add(p.name + "'s hand size is: " + p.handSize);
         res.Add("Cards left in deck: " + gs.deck.Count);
         res.Add("Top card is " + gs.topCard);
         res.Add("Your hand:");
         string hand = "";
-        foreach(Card c in gs.currentPlayer().hand) {
+        foreach(Card c in gs.currentPlayer.hand) {
             hand += (c + " ");
         }
         res.Add(hand);
         return res;
     }
-    public Move askForMove(string s, GameState gs, GameRules gr) {
-        playersTurn(gs.currentPlayer());
+    private string movesToString(List<Move> moves, GameState gs) {
+        if(moves[0] is WaitingMove) return "is waiting";
+        else if(moves[0] is SkippingMove) {
+            int rounds = gs.getStops(gs.currentPlayer);
+            return $"had to skip, {rounds} rounds left";
+        } else {
+            string res = "played ";
+            for(int i = 0; i < moves.Count-1; i++) {
+                PlayingMove pm = (PlayingMove)moves[i];
+                res += pm.cardPlayed + " ";
+            }
+            return res;
+        }
+        
+    }
+    public void askIfReady(GameState gs) {
+        WriteLine(playersTurn(gs.currentPlayer));
         WriteLine("Press any key to start");
         ReadKey(true);
+    }
+    public Move askForMove(string s, GameState gs, GameRules gr) {
         clearConsole();
         
         List<Move> options = gr.allOptions(gs);

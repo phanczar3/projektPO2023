@@ -1,8 +1,18 @@
+using System;
+using System.Collections.Generic;
 public class Card {
     public enum Suit {Spades=0, Hearts, Clubs, Diamonds};
     public enum Face {Two=2, Three, Four, Five, Six, Seven,
     Eight, Nine, Ten, Jack, Queen, King, Ace};
-    
+    public static List<Card.Face> magicCards = new List<Card.Face>() {
+        Card.Face.Two,
+        Card.Face.Three,
+        Card.Face.Four,
+        Card.Face.Jack,
+        Card.Face.Queen,
+        Card.Face.King,
+        Card.Face.Ace
+    };
     public readonly Suit suit;
     public readonly Face face;
 
@@ -10,7 +20,7 @@ public class Card {
         suit = s;
         face = f;
     }
-    public override string ToString() {
+    public static string FaceToString(Face face) {
         string f = ((int)face).ToString();
         switch(f) {
             case "11":
@@ -26,6 +36,9 @@ public class Card {
                 f = "A";
                 break;
         }
+        return f;
+    }
+    public static string SuitToString(Suit suit) {
         string s = ((int)suit).ToString();
         switch(s) {
             case "0":
@@ -41,6 +54,10 @@ public class Card {
                 s = "\u2663";
                 break;
         }
-        return f+s;
+        return s;
+    }
+
+    public override string ToString() {
+        return Card.FaceToString(face)+Card.SuitToString(suit);
     }
 }

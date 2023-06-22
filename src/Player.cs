@@ -1,33 +1,5 @@
 using System;
 using System.Collections.Generic;
-public abstract class Move {
-    public abstract string display();
-}
-public class PlayingMove : Move {
-    public Card cardPlayed;
-    public PlayingMove(Card c) => cardPlayed = c;
-    public override string display() {
-        return "Play " + cardPlayed;
-    }
-}
-public class WaitingMove : Move {
-    public WaitingMove() {}
-    public override string display() {
-        return "Wait";
-    }
-}
-public class SkippingMove : Move {
-    public SkippingMove() {}
-    public override string display() {
-        return "Skip";
-    }
-}
-public class FinishingMove : Move {
-    public FinishingMove() {}
-    public override string display() {
-        return "Finish";
-    }
-}
 public abstract class Player {
     public List<Card> hand { get; }
     public int handSize {

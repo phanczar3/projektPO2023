@@ -31,21 +31,24 @@ public class Game {
         gr = new GameRules();
     }
     public void gameLoop() {
-        while(gr.winnerOfTheGame(gs) == null) {
-            Player cp = gs.currentPlayer;
-            Move m;
-            ioh.askIfReady(gs);
-            List<Move> moves = new List<Move>();
-            do {
-                m = cp.makeMove(gs, gr);
-                Console.WriteLine(m);
-                gr.changeState(ref gs, m);
-                moves.Add(m);
-            } while(m is PlayingMove);
-            gs.nextTurn(moves);
-            if(cp is User)
-                ioh.clearConsole();
+        try{
+            while(gr.winnerOfTheGame(gs) == null) {
+                Player cp = gs.currentPlayer;
+                Move m;
+                ioh.askIfReady(gs);
+                List<Move> moves = new List<Move>();
+                do {
+                    m = cp.makeMove(gs, gr);
+                    gr.changeState(ref gs, m);
+                    moves.Add(m);
+                } while(!(m is WaitingMove || m is FinishingMove || m is SkippingMove));
+                gs.nextTurn(moves);
+                if(cp is User)
+                    ioh.clearConsole();
+            }
+            ioh.announceWinner(gr.winnerOfTheGame(gs));
+        } catch(NullReferenceException e) {
+            ioh.announceEndOfGame(e.Message);
         }
-        ioh.announceWinner(gr.winnerOfTheGame(gs));
     }
 }

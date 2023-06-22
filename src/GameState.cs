@@ -12,20 +12,34 @@ public class GameState {
     }
     public List<Tuple<Player,List<Move>>> previousMoves {get;}
     public Deck deck {get;}
-    public Card topCard {get; set;}
-    public int cardsToDraw {get; set;}
-    public int roundsToSkip {get; set;}
-    public bool startedPlaying {get; set;}
+    public Card topCard;
+    public Card.Suit topCardSuit;
+    public Card.Face topCardFace;
+    public Player playerPlayingJack;
+    public int cardsToDraw;
+    public int roundsToSkip;
+    public bool startedPlaying;
+    public bool jackPlayed;
+    public bool jackPlayedThisTurn;
+    public bool jackActive;
+    public bool acePlayed;
     public GameState(List<Player> players, Deck deck, Card topCard) {
         this.players = players;
         this.deck = deck;
         this.topCard = topCard;
+        topCardSuit = topCard.suit;
+        topCardFace = topCard.face;
         foreach(Player p in players) {
             playersStates.Add(p, new PlayerState());
         }
         cardsToDraw = 0;
         roundsToSkip = 0;
         startedPlaying = false;
+        jackPlayed = false;
+        jackActive = false;
+        jackPlayedThisTurn = false;
+        acePlayed = false;
+        playerPlayingJack = null;
         previousMoves = new List<Tuple<Player,List<Move>>>();
     }
     public void nextTurn(List<Move> moves) {

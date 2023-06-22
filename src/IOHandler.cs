@@ -1,21 +1,23 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using static System.Console;
 public class IOHandler {
     public IOHandler() {}
     public List<string> getUsers() {
         WriteLine("How many players will be playing?");
-        int input = parseInt(1,5);
+        int input = parseInt(1,4);
         List<string> users = new List<string>();
         for(int i = 1; i <= input; i++) {
             Write("Player no. " + i + " name: ");
-            users.Add(Console.ReadLine());
+            string s = parseString(users);
+            users.Add(s);
         }
         return users;
     }
     public List<string> getBots() {
         WriteLine("With how many bots do you want to play?");
-        int input = parseInt(0,5);
+        int input = parseInt(0,4);
         List<string> bots = new List<string>();
         for(int i = 1; i <= input; i++) {
             bots.Add("Bot" + Convert.ToString(i));
@@ -36,34 +38,49 @@ public class IOHandler {
     private List<String> showGameState(GameState gs) {
         List<String> res = new List<String>();
         res.Add(playersTurn(gs.currentPlayer));
-        for(int i = 0; i < gs.previousMoves.Count; i++) {
-            res.Add(gs.previousMoves[i].Item1.name + " " + movesToString(gs.previousMoves[i].Item2, gs));
+        if(gs.previousMoves.Count > 0)
+            res.Add("---- Previous Moves ----");
+        for(int i = gs.previousMoves.Count-1; i >= 0; i--) {
+            int cnt = gs.previousMoves.Count-i;
+            res.Add($"[{cnt}] {gs.previousMoves[i].Item1.name} {movesToString(gs.previousMoves[i].Item2, gs)}");
         }
+        res.Add("------ Hand sizes ------");
         foreach(Player p in gs.players)
            if(gs.currentPlayer != p)
-               res.Add(p.name + "'s hand size is: " + p.handSize);
-        res.Add("Cards left in deck: " + gs.deck.Count);
-        res.Add("Top card is " + gs.topCard);
-        res.Add("Your hand:");
+               res.Add($" {p.name}'s hand size is: {p.handSize}");
+        res.Add("-- Cards on the table --");
+        res.Add(" Cards left in deck: " + gs.deck.Count);
+        res.Add(" Top card is " + gs.topCard);
+        res.Add("------ Your  hand ------");
         string hand = "";
-        foreach(Card c in gs.currentPlayer.hand) {
+        for(int i = 0; i < gs.currentPlayer.hand.Count; i++) {
+            if(i % 8 == 0 && i > 0) hand += "\n";
+            Card c = gs.currentPlayer.hand[i];
             hand += (c + " ");
         }
         res.Add(hand);
+        res.Add("----- Your options -----");
         return res;
     }
     private string movesToString(List<Move> moves, GameState gs) {
         if(moves[0] is WaitingMove) return "is waiting";
         else if(moves[0] is SkippingMove) {
-            int rounds = gs.getStops(gs.currentPlayer);
-            return $"had to skip, {rounds} rounds left";
+            return "had to skip";
         } else {
             string res = "played ";
             for(int i = 0; i < moves.Count-1; i++) {
-                PlayingMove pm = (PlayingMove)moves[i];
-                res += pm.cardPlayed + " ";
+                if(moves[i] is PlayingMove) {        
+                    PlayingMove pm = (PlayingMove)moves[i];
+                    res += pm.cardPlayed + (pm.cardPlayed.face != Card.Face.Ace && pm.cardPlayed.face != Card.Face.Jack?", ":"");
+                } else if(moves[i] is ChoosingSuitMove) {
+                    ChoosingSuitMove csm = (ChoosingSuitMove)moves[i];
+                    res += $"(chose {Card.SuitToString(csm.suit)}), ";
+                } else if(moves[i] is ChoosingFaceMove) {
+                    ChoosingFaceMove cfm = (ChoosingFaceMove)moves[i];
+                    res += $"(chose {Card.FaceToString(cfm.face)}), ";
+                }
             }
-            return res;
+            return res.Substring(0, res.Length-2);
         }
         
     }
@@ -89,6 +106,9 @@ public class IOHandler {
     public void announceWinner(Player p) {
         WriteLine(p.name + " has won!");
     }
+    public void announceEndOfGame(string msg) {
+        WriteLine($"{msg}, game has ended");
+    }
     private int parseInt(int a, int b) {
         int? input = null;
         while(!input.HasValue) {
@@ -99,5 +119,18 @@ public class IOHandler {
             }
         }
         return input.Value;
+    }
+    private string parseString(List<String> forbidden) {
+        string s;
+        while(true) {
+            s = Console.ReadLine();
+            if(s.All(c => Char.IsLetter(c)) && !forbidden.Contains(s))
+                break;
+            if(!s.All(c => Char.IsLetter(c)))
+                Console.WriteLine("The input has to be a string consisting of latin letters");
+            if(forbidden.Contains(s))
+                Console.WriteLine("The name already belongs to another player");
+        }
+        return s;
     }
 }

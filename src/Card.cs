@@ -13,8 +13,8 @@ public class Card {
         Card.Face.King,
         Card.Face.Ace
     };
-    public readonly Suit suit;
-    public readonly Face face;
+    public Suit suit {get;}
+    public Face face {get;}
 
     public Card(Suit s, Face f) {
         suit = s;

@@ -32,7 +32,7 @@ public class IOHandler {
         }
         WriteLine(s.Substring(0, s.Length-2));
     }
-    public string playersTurn(Player p) {
+    private string playersTurn(Player p) {
         return p.name + "'s turn:";
     }
     private List<String> showGameState(GameState gs) {

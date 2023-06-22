@@ -5,20 +5,20 @@ public class GameState {
         public int roundsToSkip;
         public PlayerState() => roundsToSkip = 0;
     }
-    private Dictionary<Player, PlayerState> playersStates = new Dictionary<Player, PlayerState>();
     public List<Player> players {get;}
     public Player currentPlayer {
         get { return players[0]; }
     }
+    public bool startedPlaying;
     public List<Tuple<Player,List<Move>>> previousMoves {get;}
     public Deck deck {get;}
     public Card topCard;
     public Card.Suit topCardSuit;
     public Card.Face topCardFace;
-    public Player playerPlayingJack;
     public int cardsToDraw;
     public int roundsToSkip;
-    public bool startedPlaying;
+    private Dictionary<Player, PlayerState> playersStates = new Dictionary<Player, PlayerState>();
+    public Player playerPlayingJack;
     public bool jackPlayed;
     public bool jackPlayedThisTurn;
     public bool jackActive;

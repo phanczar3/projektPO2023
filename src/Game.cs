@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 public class Game {
     private IOHandler ioh;
-    private Card topCard;
     private GameState gs;
     private GameRules gr;
     public Game() {
@@ -26,7 +25,7 @@ public class Game {
                 p.drawCard(deck.top());
             }
         }
-        topCard = deck.top();
+        Card topCard = deck.top();
         gs = new GameState(players, deck, topCard);
         gr = new GameRules();
     }

@@ -8,11 +8,7 @@ public class Deck{
         get { return cards.Count; }
     }
     public Deck() {
-        foreach(Card.Suit s in Enum.GetValues(typeof(Card.Suit))) {
-            foreach(Card.Face f in Enum.GetValues(typeof(Card.Face))) {
-                cards.Add(new Card(s, f));
-            }
-        }
+        cards = Card.generateStandardDeck();
     }
     public void usedCard(Card c) {
         usedCards.Add(c);

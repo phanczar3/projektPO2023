@@ -56,7 +56,15 @@ public class Card {
         }
         return s;
     }
-
+    public static List<Card> generateStandardDeck() {
+        List<Card> cards = new List<Card>();
+        foreach(Card.Suit s in Enum.GetValues(typeof(Card.Suit))) {
+            foreach(Card.Face f in Enum.GetValues(typeof(Card.Face))) {
+                cards.Add(new Card(s, f));
+            }
+        }
+        return cards;
+    }
     public override string ToString() {
         return Card.FaceToString(face)+Card.SuitToString(suit);
     }

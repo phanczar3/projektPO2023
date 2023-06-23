@@ -96,7 +96,7 @@ public class IOHandler {
         WriteLine("Press any key to start");
         ReadKey(true);
     }
-    public Move askForMove(string s, GameState gs, GameRules gr) {
+    public Move askForMove(GameState gs, GameRules gr) {
         clearConsole();
         
         List<Move> options = gr.allOptions(gs);

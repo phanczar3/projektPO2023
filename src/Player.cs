@@ -7,6 +7,8 @@ public abstract class Player {
     }
     private int roundsToSkip;
     public readonly string name;
+    public List<Move> lastMoves;
+    
     protected Player(string s) {
         name = s;
         hand = new List<Card>();
@@ -21,11 +23,5 @@ public abstract class Player {
     public void isSkipping() => roundsToSkip--;
     public void setStops(int x) => roundsToSkip = x; 
 
-    public List<Move> lastMoves;
-    public void showHand() {
-        foreach(Card c in hand) {
-            Console.WriteLine(c);
-        }
-    }
     public abstract Move makeMove(GameState gs, GameRules gr);
 }

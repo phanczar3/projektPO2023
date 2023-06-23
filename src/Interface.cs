@@ -9,11 +9,6 @@ class KeyboardInterface {
         options = o;
         selectedIndex = 0;  
     }
-    private void swapColors() {
-        ConsoleColor tmp = ForegroundColor;
-        ForegroundColor = BackgroundColor;
-        BackgroundColor = tmp;
-    }
     private void displayInterface() {
         foreach(string s in state) {
             WriteLine(s);

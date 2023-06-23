@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
 public class GameState {
-    public class PlayerState {
-        public int roundsToSkip;
-        public PlayerState() => roundsToSkip = 0;
-    }
     public List<Player> players {get;}
     public Player currentPlayer {
         get { return players[0]; }
@@ -17,7 +13,6 @@ public class GameState {
     public Card.Face topCardFace;
     public int cardsToDraw;
     public int roundsToSkip;
-    private Dictionary<Player, PlayerState> playersStates = new Dictionary<Player, PlayerState>();
     public Player playerPlayingJack;
     public bool jackPlayed;
     public bool jackPlayedThisTurn;
@@ -29,9 +24,6 @@ public class GameState {
         this.topCard = topCard;
         topCardSuit = topCard.suit;
         topCardFace = topCard.face;
-        foreach(Player p in players) {
-            playersStates.Add(p, new PlayerState());
-        }
         cardsToDraw = 0;
         roundsToSkip = 0;
         startedPlaying = false;
@@ -50,18 +42,6 @@ public class GameState {
         players.RemoveAt(0);
         players.Add(p);
         startedPlaying = false;
-    }
-    public bool isStopped(Player p) {
-        return getStops(p) > 0;
-    }
-    public void playerSkips(Player p) {
-        playersStates[p].roundsToSkip--;
-    }
-    public int getStops(Player p) {
-        return playersStates[p].roundsToSkip;
-    }
-    public void setStops(Player p, int x) {
-        playersStates[p].roundsToSkip = x;
     }
 }
 

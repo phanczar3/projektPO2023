@@ -7,8 +7,8 @@ public class GameRules {
         else if(m is ChoosingFaceMove || gs.jackPlayed) return false;
         if(m is ChoosingSuitMove && gs.acePlayed) return true;
         else if(m is ChoosingSuitMove || gs.acePlayed) return false;
-        if(m is SkippingMove && gs.isStopped(gs.currentPlayer)) return true;
-        else if(gs.isStopped(gs.currentPlayer) || m is SkippingMove) return false;
+        if(m is SkippingMove && gs.currentPlayer.isStopped()) return true;
+        else if(gs.currentPlayer.isStopped() || m is SkippingMove) return false;
         if(gs.jackActive) {
             if(gs.jackPlayedThisTurn) {
                 if(m is PlayingMove) {
@@ -93,7 +93,7 @@ public class GameRules {
                 }
                 gs.cardsToDraw = 0;
             } else if(gs.roundsToSkip > 0) {
-                gs.setStops(gs.currentPlayer, gs.roundsToSkip);
+                gs.currentPlayer.setStops(gs.roundsToSkip);
                 gs.roundsToSkip = 0;
             } else {
                 gs.currentPlayer.drawCard(gs.deck.top());
@@ -122,7 +122,7 @@ public class GameRules {
                 gs.playerPlayingJack = gs.currentPlayer;
             gs.jackPlayedThisTurn = false;
         } else if(m is SkippingMove) {
-            gs.playerSkips(gs.currentPlayer);
+            gs.currentPlayer.isSkipping();
         }
 
     }

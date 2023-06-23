@@ -5,14 +5,20 @@ public abstract class Player {
     public int handSize {
         get { return hand.Count; }
     }
+    private int roundsToSkip;
     public readonly string name;
     protected Player(string s) {
         name = s;
         hand = new List<Card>();
+        roundsToSkip = 0;
     }
 
     public void playCard(Card c) => hand.Remove(c);
     public void drawCard(Card c) => hand.Add(c);
+
+    public bool isStopped() => roundsToSkip > 0;
+    public void isSkipping() => roundsToSkip--;
+    public void setStops(int x) => roundsToSkip = x; 
 
     public void showHand() {
         foreach(Card c in hand) {

@@ -11,6 +11,7 @@ public abstract class Player {
         name = s;
         hand = new List<Card>();
         roundsToSkip = 0;
+        lastMoves = null;
     }
 
     public void playCard(Card c) => hand.Remove(c);
@@ -20,6 +21,7 @@ public abstract class Player {
     public void isSkipping() => roundsToSkip--;
     public void setStops(int x) => roundsToSkip = x; 
 
+    public List<Move> lastMoves;
     public void showHand() {
         foreach(Card c in hand) {
             Console.WriteLine(c);

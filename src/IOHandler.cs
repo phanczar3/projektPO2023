@@ -38,11 +38,18 @@ public class IOHandler {
     private List<String> showGameState(GameState gs) {
         List<String> res = new List<String>();
         res.Add(playersTurn(gs.currentPlayer));
-        if(gs.previousMoves.Count > 0)
+        List<String> previousMovesStrings = new List<String>();
+        for(int i = gs.players.Count-1; i > 0; i--) {
+            int cnt = gs.players.Count-i;
+            Player curPlayer = gs.players[i];
+            if(curPlayer.lastMoves != null) {
+                previousMovesStrings.Add($"[{cnt}] {curPlayer.name} {movesToString(curPlayer.lastMoves)}");
+            }
+        }
+        if(previousMovesStrings.Count > 0) {
             res.Add("---- Previous Moves ----");
-        for(int i = gs.previousMoves.Count-1; i >= 0; i--) {
-            int cnt = gs.previousMoves.Count-i;
-            res.Add($"[{cnt}] {gs.previousMoves[i].Item1.name} {movesToString(gs.previousMoves[i].Item2, gs)}");
+            foreach(string s in previousMovesStrings)
+                res.Add(s);
         }
         res.Add("------ Hand sizes ------");
         foreach(Player p in gs.players)
@@ -62,7 +69,7 @@ public class IOHandler {
         res.Add("----- Your options -----");
         return res;
     }
-    private string movesToString(List<Move> moves, GameState gs) {
+    private string movesToString(List<Move> moves) {
         if(moves[0] is WaitingMove) return "is waiting";
         else if(moves[0] is SkippingMove) {
             return "had to skip";

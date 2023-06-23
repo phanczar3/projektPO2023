@@ -6,7 +6,6 @@ public class GameState {
         get { return players[0]; }
     }
     public bool startedPlaying;
-    public List<Tuple<Player,List<Move>>> previousMoves {get;}
     public Deck deck {get;}
     public Card topCard;
     public Card.Suit topCardSuit;
@@ -32,13 +31,10 @@ public class GameState {
         jackPlayedThisTurn = false;
         acePlayed = false;
         playerPlayingJack = null;
-        previousMoves = new List<Tuple<Player,List<Move>>>();
     }
     public void nextTurn(List<Move> moves) {
-        previousMoves.Add(new Tuple<Player, List<Move>>(currentPlayer, moves));
-        if(previousMoves.Count == players.Count) 
-            previousMoves.RemoveAt(0);
         Player p = players[0];
+        p.lastMoves = moves;
         players.RemoveAt(0);
         players.Add(p);
         startedPlaying = false;

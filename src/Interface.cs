@@ -27,7 +27,7 @@ class KeyboardInterface {
             else {
                 pref = " ";
             }
-            WriteLine($"    {pref} << {cur} >>");
+            WriteLine($" {pref} << {cur} >>");
         }
     }
     public int run() {

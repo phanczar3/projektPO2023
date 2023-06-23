@@ -9,9 +9,14 @@ public class PlayingMove : Move {
     }
 }
 public class WaitingMove : Move {
-    public WaitingMove() {}
+    private GameState gs;
+    public WaitingMove(GameState gs) {
+        this.gs = gs;
+    }
     public override string display() {
-        return "Wait";
+        if(gs.cardsToDraw > 0) return $"Draw {gs.cardsToDraw} cards";
+        else if(gs.roundsToSkip > 0) return $"Skip next {gs.roundsToSkip} rounds";
+        else return "Draw 1 card";
     }
 }
 public class SkippingMove : Move {

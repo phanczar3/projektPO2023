@@ -128,7 +128,7 @@ public class GameRules {
     }
     public List<Move> allOptions(GameState gs) {
         List<Move> options = new List<Move>();
-        options.Add(new WaitingMove());
+        options.Add(new WaitingMove(gs));
         options.Add(new SkippingMove());
         options.Add(new FinishingMove());
         foreach(Card.Suit s in Enum.GetValues(typeof(Card.Suit))) {

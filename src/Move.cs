@@ -15,14 +15,21 @@ public class WaitingMove : Move {
     }
     public override string display() {
         if(gs.cardsToDraw > 0) return $"Draw {gs.cardsToDraw} cards";
-        else if(gs.roundsToSkip > 0) return $"Skip next {gs.roundsToSkip} rounds";
-        else return "Draw 1 card";
+        else if(gs.roundsToSkip > 0) {
+            if(gs.roundsToSkip == 1) return "Skip next round";
+            else return $"Skip next {gs.roundsToSkip} rounds";
+        }else return "Draw 1 card";
     }
 }
 public class SkippingMove : Move {
-    public SkippingMove() {}
+    private GameState gs;
+    public SkippingMove(GameState gs) {
+        this.gs = gs;
+    }
     public override string display() {
-        return "Skip";
+        int cnt = gs.currentPlayer.getStops()-1;
+        if(cnt == 1) return "Skip, 1 round left";
+        else return $"Skip, {cnt} rounds left";
     }
 }
 public class ChoosingSuitMove : Move {

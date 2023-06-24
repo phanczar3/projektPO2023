@@ -21,7 +21,8 @@ public abstract class Player {
 
     public bool isStopped() => roundsToSkip > 0;
     public void isSkipping() => roundsToSkip--;
-    public void setStops(int x) => roundsToSkip = x; 
+    public void setStops(int x) => roundsToSkip = x;
+    public int getStops() => roundsToSkip;
 
     public abstract Move makeMove(GameState gs, GameRules gr);
 }
